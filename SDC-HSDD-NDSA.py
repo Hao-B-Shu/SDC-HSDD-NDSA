@@ -9,6 +9,7 @@ class SDCHSDDNDSA():#The SDC-HSDD-NDSA class. MinClusterPoint should larger than
     def __init__(self,data, MaxIsoPointRho=0.07,MinClusterPoint=35,MinFractionPoint=0.01,MidResult=False,Dataname='Cluster Index: 1',DataClustername='ID Cluster',
                  SearchNeiborK=7,RhoCalculateK=4,eps=0.075,IsoNeiborK=4,adjust=0.005,Mineps=0.045,Maxeps=0.075,MinKNNClusterPoint=7,IOC=True):
         self.data=data
+        self.datadim=len(self.data[0])
         self.MaxIsoPointRho = MaxIsoPointRho
         self.MinClusterPoint = MinClusterPoint
         self.MidResult = MidResult
@@ -37,7 +38,7 @@ class SDCHSDDNDSA():#The SDC-HSDD-NDSA class. MinClusterPoint should larger than
                 for j in range(1, self.RhoCalculateK):
                     r = r + kNNDistance[i, j]
                 r = r / (self.RhoCalculateK - 1)
-                rho = 1 / (r * r * np.pi)
+                rho = 1 / (r ** self.datadim)
                 kNrho.append(rho)
             MRho = max(kNrho)
             kNrho = np.array(kNrho)
@@ -50,13 +51,13 @@ class SDCHSDDNDSA():#The SDC-HSDD-NDSA class. MinClusterPoint should larger than
                 for j in range (1,self.RhoCalculateK):
                     r=r+kNNDistance[i,j]
                 r = r / (self.RhoCalculateK - 1)
-                rho = 1 / (r * r * np.pi)
+                rho = 1 / (r ** self.datadim)
                 kNrho.append(rho)
                 r = 0
                 for j in range(1, self.IsoNeiborK):
                     r = r + kNNDistance[i, j]
                 r = r / (self.IsoNeiborK - 1)
-                rho = 1 / (r * r * np.pi)
+                rho = 1 / (r  ** self.datadim)
                 IskNrho.append(rho)
             MRho = max(kNrho)
             kNrho=np.array(kNrho)
